@@ -363,7 +363,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="epl-rD-HIB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="271" y="958"/>
+            <point key="canvasLocation" x="355" y="798"/>
         </scene>
         <!--Meats-->
         <scene sceneID="pU7-v3-XLL">
@@ -436,7 +436,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gih-YE-fWw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1064" y="740"/>
+            <point key="canvasLocation" x="1710" y="471"/>
         </scene>
         <!--Grains-->
         <scene sceneID="Gvb-bL-L06">
@@ -495,7 +495,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3p7-bE-c1y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1758" y="1814"/>
+            <point key="canvasLocation" x="1265" y="2377"/>
         </scene>
         <!--Plants-->
         <scene sceneID="ez5-o7-YqD">
@@ -618,7 +618,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yN1-Fm-8b2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1759" y="1163"/>
+            <point key="canvasLocation" x="1912" y="1606"/>
         </scene>
         <!--Plants/Grains-->
         <scene sceneID="aRx-3t-O2i">
@@ -668,7 +668,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BPx-VP-OdC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1064" y="1529"/>
+            <point key="canvasLocation" x="413" y="1649"/>
         </scene>
         <!--Manual Entry-->
         <scene sceneID="SGz-zh-9Pd">
@@ -679,7 +679,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="54" translatesAutoresizingMaskIntoConstraints="NO" id="XfT-PW-Dq7">
-                                <rect key="frame" x="20" y="250" width="374" height="381"/>
+                                <rect key="frame" x="20" y="250" width="374" height="224"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Ingredient" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fL-3l-SAr">
                                         <rect key="frame" x="69.5" y="0.0" width="235" height="42"/>
@@ -687,22 +687,24 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter here" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OSN-pK-K2y">
-                                        <rect key="frame" x="0.0" y="96" width="374" height="285"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <accessibilityTraits key="traits" searchField="YES" allowsDirectInteraction="YES"/>
-                                        </accessibility>
-                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter here:     " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LIU-6N-xsp">
+                                        <rect key="frame" x="128" y="96" width="118" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kws-uc-SE5">
+                                        <rect key="frame" x="160" y="184" width="54" height="40"/>
+                                        <color key="backgroundColor" red="0.63944358530487433" green="0.86883328045685282" blue="0.83202524168666836" alpha="0.55538313356164382" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <state key="normal" title="Done">
+                                            <color key="titleColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.87392745178099451" green="1" blue="0.94341258914031989" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="nbk-AD-cXr" firstAttribute="bottom" secondItem="XfT-PW-Dq7" secondAttribute="bottom" constant="177" id="D2O-lQ-Zhw"/>
                             <constraint firstItem="XfT-PW-Dq7" firstAttribute="top" secondItem="nbk-AD-cXr" secondAttribute="top" constant="250" id="HSh-le-Mlv"/>
                             <constraint firstItem="XfT-PW-Dq7" firstAttribute="centerX" secondItem="nbk-AD-cXr" secondAttribute="centerX" id="PmQ-CS-yZ5"/>
                             <constraint firstItem="nbk-AD-cXr" firstAttribute="trailing" secondItem="XfT-PW-Dq7" secondAttribute="trailing" constant="20" id="SA5-ds-pea"/>
@@ -718,7 +720,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8OK-1t-UiV"/>
+        <segue reference="HCo-bB-hof"/>
         <segue reference="CPk-l6-4DL"/>
     </inferredMetricsTieBreakers>
 </document>
