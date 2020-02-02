@@ -13,7 +13,7 @@ class API {
     // Gets the posts json data and returns it converted as a dictionary
     func getRecipes(completion: @escaping ([[String: Any]]?) -> Void) {
         // Network request snippet
-        let url = URL(string: "URL_RECIPES")!
+        let url = URL(string: "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=5&ranking=1&ignorePantry=false&ingredients=apples%252Cflour%252Csugar")!
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
         session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let task = session.dataTask(with: url) { (data, response, error) in
