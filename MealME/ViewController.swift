@@ -11,7 +11,8 @@ import UIKit
 class ViewController: UIViewController {
 
     
-    
+    let repo = Repository()
+    @IBOutlet weak var recipeCell: RecipeCell!
     var recipes: [[String: Any]] = []
     
     override func viewDidLoad() {
