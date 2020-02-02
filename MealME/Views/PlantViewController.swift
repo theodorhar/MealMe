@@ -2,7 +2,7 @@
 //  PlantViewController.swift
 //  MealME
 //
-//  Created by Aparna Kane on 2/1/20.
+//  Created by Tanay Kane on 2/1/20.
 //  Copyright © 2020 Theodor Har. All rights reserved.
 //
 

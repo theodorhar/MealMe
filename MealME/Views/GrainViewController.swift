@@ -1,5 +1,5 @@
 //
-//  MeatViewController.swift
+//  GrainViewController.swift
 //  MealME
 //
 //  Created by Tanay Kane on 2/1/20.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class MeatViewController: UIViewController {
-    let repo = Repository()
+class GrainViewController: UIViewController {
+let repo = Repository()
     override func viewDidLoad() {
         super.viewDidLoad()
 
