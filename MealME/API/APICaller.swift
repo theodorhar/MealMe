@@ -34,8 +34,8 @@ class API {
                 
                 // Get the posts and return them
                 // I believe it returns a string so
-                let responseDictionary = dataDictionary as! [String: Any]
-                recipes = responseDictionary["title"] as! [[String: Any]]
+                let responseDictionary = dataDictionary as! [[String: Any]]
+                recipes = responseDictionary as! [[String: Any]]
                 
                 return completion(recipes)
                 
