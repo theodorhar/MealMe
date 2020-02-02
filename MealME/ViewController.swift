@@ -22,7 +22,8 @@ class ViewController: UIViewController {
     
     func getRecipes() {
         let api = API()
-        api.getRecipes() { recipes in
+        // Testing a sample list of ingredients
+        api.getRecipes(ingredient_list: ["apples","flour","sugar"]) { recipes in
             if let recipes = recipes {
                 self.recipes = recipes
             }

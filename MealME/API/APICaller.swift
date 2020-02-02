@@ -11,9 +11,11 @@ import Foundation
 class API {
 
     // Gets the posts json data and returns it converted as a dictionary
-    func getRecipes(completion: @escaping ([[String: Any]]?) -> Void) {
+    func getRecipes(ingredient_list:[String] = [],completion: @escaping ([[String: Any]]?) -> Void) {
         // Network request snippet
-        let url = URL(string: "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=5&ranking=1&ignorePantry=false&ingredients=apples%252Cflour%252Csugar")!
+        let ingredients = ingredient_list.joined(separator: "%252C")
+        let urlString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=5&ranking=1&ignorePantry=false&ingredients=" + ingredients
+        let url = URL(string: urlString)!
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
         session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let task = session.dataTask(with: url) { (data, response, error) in
