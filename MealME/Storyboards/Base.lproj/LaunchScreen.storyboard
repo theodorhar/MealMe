@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="B2H-lH-iSe">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Launch Screen-->
+        <scene sceneID="9ky-nx-uDA">
+            <objects>
+                <viewController title="Launch Screen" id="B2H-lH-iSe" sceneMemberID="viewController">
+                    <view key="view" userInteractionEnabled="NO" contentMode="scaleToFill" id="BLQ-Bd-hwN">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="F65-BJ-bfE">
+                                <rect key="frame" x="273" y="423" width="59" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MealMe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TD7-XF-5if">
+                                <rect key="frame" x="0.0" y="419" width="332" height="58.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="49"/>
+                                <color key="textColor" red="0.65857207780000004" green="0.0054510226470000003" blue="0.17193382979999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.4421038014" green="0.84708121830000005" blue="0.657136002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                        </accessibility>
+                        <constraints>
+                            <constraint firstItem="TD7-XF-5if" firstAttribute="top" secondItem="5Al-zp-P8t" secondAttribute="top" constant="375" id="Pvt-WW-gGo"/>
+                            <constraint firstItem="5Al-zp-P8t" firstAttribute="trailing" secondItem="TD7-XF-5if" secondAttribute="trailing" constant="82" id="cY2-5R-YxA"/>
+                            <constraint firstItem="TD7-XF-5if" firstAttribute="leading" secondItem="BLQ-Bd-hwN" secondAttribute="leadingMargin" constant="-20" id="un5-8i-7Kn"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="5Al-zp-P8t"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xzd-Zf-i3d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-317" y="368"/>
+        </scene>
+    </scenes>
+</document>

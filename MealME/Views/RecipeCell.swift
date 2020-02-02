@@ -1,5 +1,5 @@
 //
-//  RecipieCell.swift
+//  RecipeCell.swift
 //  MealME
 //
 //  Created by Theodor Har on 2/1/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RecipieCell: UITableViewCell {
+class RecipeCell: UITableViewCell {
     
     
     @IBOutlet weak var RecipeImage: UIImageView!
