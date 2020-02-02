@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     
-    let repo = Repository()
+   // let repo = Repository()
     @IBOutlet weak var recipeCell: RecipeCell!
     var recipes: [[String: Any]] = []
     
@@ -20,17 +20,19 @@ class ViewController: UIViewController {
         getRecipes()
     }
     
-    
+ 
     func getRecipes() {
         let api = API()
         // Testing a sample list of ingredients
+        
         api.getRecipes(ingredient_list: ["apples","flour","sugar"]) { recipes in
             if let recipes = recipes {
+                print(recipes)
                 self.recipes = recipes
+                
             }
         }
-    }
-    //let Image
+    }    //let Image
     //cell.photoImageView.af_setImage(withURL:url)
 
 
