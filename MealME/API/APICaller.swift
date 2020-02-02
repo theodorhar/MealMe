@@ -9,7 +9,7 @@
 import Foundation
 
 class API {
-    static var ingredients:Set<String> = []
+    static var ingredients:Set<String> = ["apple","flour","sugar"]
     let url_base = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"
     // Gets the posts json data and returns it converted as a dictionary
     let headers = [
@@ -20,20 +20,20 @@ class API {
 
     func getRecipes(ingredient_list:[String],completion: @escaping ([[String: Any]]?) -> Void) {
         // Network request snippet
-        let ingredients = ingredient_list.joined(separator: "%252C")
-        let urlString = url_base + "findByIngredients?number=5&ranking=1&ignorePantry=false&ingredients=" + ingredients
+        let ingredient_set = ingredient_list.joined(separator: "%252C")
+        let urlString = url_base + "findByIngredients?number=5&ranking=1&ignorePantry=false&ingredients=" + ingredient_set
         let url = URL(string: urlString)!
         var request = URLRequest(url:url)
         request.setValue("spoonacular-recipe-food-nutrition-v1.p.rapidapi.com", forHTTPHeaderField: "x-rapidapi-host")
         request.setValue("0203654c27mshf4fe4fcfc155983p1bb69fjsn7ed59b996765", forHTTPHeaderField: "x-rapidapi-key")
+        print(request)
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
         session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let task = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else if let data = data,
-                
-                
+               
                 // Where data comes from API in JSON Format
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                 

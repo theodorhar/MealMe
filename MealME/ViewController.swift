@@ -29,6 +29,7 @@ class ViewController: UIViewController {
             if let recipes = recipes {
                 print(recipes)
                 self.recipes = recipes
+                print(recipes)
                 
             }
         }
