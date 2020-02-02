@@ -12,11 +12,15 @@ class OtherViewController: UIViewController {
     let repo = Repository()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
     
-
+    @IBOutlet weak var textField: UITextField!
+    
+    @IBAction func buttonPressed(_ sender: Any) {
+        API.ingredients.insert((textField.text as String?)!)
+    }
     /*
     // MARK: - Navigation
 

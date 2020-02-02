@@ -10,6 +10,15 @@ import UIKit
 
 class GrainViewController: UIViewController {
 let repo = Repository()
+    
+    @IBAction func breadPressed(_ sender: Any) {
+        API.ingredients.insert("bread")
+    }
+    
+    @IBAction func ricePressed(_ sender: Any) {
+        API.ingredients.insert("rice")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

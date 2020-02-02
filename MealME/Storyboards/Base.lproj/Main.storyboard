@@ -377,6 +377,9 @@
                                 <state key="normal" title="Beef">
                                     <color key="titleColor" red="0.13112918440558374" green="0.016824353682562396" blue="0.022855319624436942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="beefPressed:" destination="guA-UX-F3E" eventType="touchUpInside" id="0bW-cL-75w"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BST-dg-A1N">
                                 <rect key="frame" x="207" y="0.0" width="207" height="401"/>
@@ -385,6 +388,9 @@
                                 <state key="normal" title="Pork">
                                     <color key="titleColor" red="0.58659184644720819" green="0.34722360983854478" blue="0.24105890976601593" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="porkPressed:" destination="guA-UX-F3E" eventType="touchUpInside" id="jHj-Hl-lbt"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yLE-Ci-bij">
                                 <rect key="frame" x="0.0" y="401" width="207" height="401"/>
@@ -393,6 +399,9 @@
                                 <state key="normal" title="Fish">
                                     <color key="titleColor" red="0.20140136432467923" green="0.30490865782455462" blue="0.36005129734314723" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="fishPressed:" destination="guA-UX-F3E" eventType="touchUpInside" id="M4H-0d-Wcl"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKf-gu-BR6">
                                 <rect key="frame" x="207" y="401" width="207" height="401"/>
@@ -450,6 +459,9 @@
                                 <state key="normal" title="Bread">
                                     <color key="titleColor" red="0.58659184639999995" green="0.3472236098" blue="0.2410589098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="breadPressed:" destination="5ll-Z3-Lgu" eventType="touchUpInside" id="l5c-hT-AaW"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOF-Mv-MaE">
                                 <rect key="frame" x="0.0" y="252.5" width="414" height="269.5"/>
@@ -458,6 +470,9 @@
                                 <state key="normal" title="Rice">
                                     <color key="titleColor" red="0.55782346404670058" green="0.45594122995741365" blue="0.3287834292232989" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="ricePressed:" destination="5ll-Z3-Lgu" eventType="touchUpInside" id="LyX-T7-h5Z"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N5F-Pi-jD3">
                                 <rect key="frame" x="0.0" y="522" width="414" height="269.5"/>
@@ -491,6 +506,7 @@
                     <navigationItem key="navigationItem" id="hAG-tA-yDr"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3p7-bE-c1y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="5ll-Z3-Lgu" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1265" y="2377"/>
         </scene>
@@ -509,6 +525,9 @@
                                 <state key="normal" title="Potato">
                                     <color key="titleColor" red="0.13112918439999999" green="0.016824353680000001" blue="0.022855319620000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="potatoButton:" destination="nbg-7d-e8W" eventType="touchUpInside" id="hr7-g0-7e3"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bOa-TK-TIe">
                                 <rect key="frame" x="207" y="0.0" width="207" height="200.5"/>
@@ -517,6 +536,9 @@
                                 <state key="normal" title="Carrot">
                                     <color key="titleColor" red="0.58659184639999995" green="0.3472236098" blue="0.2410589098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="carrotPressed:" destination="nbg-7d-e8W" eventType="touchUpInside" id="rmg-yS-66p"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WI9-3s-AqA">
                                 <rect key="frame" x="207" y="200.5" width="207" height="200.5"/>
@@ -525,6 +547,9 @@
                                 <state key="normal" title="Zucchini">
                                     <color key="titleColor" red="0.33721734390000002" green="0.67381512619999995" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="zucchiniPressed:" destination="nbg-7d-e8W" eventType="touchUpInside" id="rkJ-9V-YLs"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P82-xN-p7Y">
                                 <rect key="frame" x="0.0" y="200.5" width="207" height="200.5"/>
@@ -533,6 +558,9 @@
                                 <state key="normal" title="Tomato">
                                     <color key="titleColor" red="0.43722452070000001" green="0.0056254687729999997" blue="0.117514439" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="tomatoPressed:" destination="nbg-7d-e8W" eventType="touchUpInside" id="E0C-OZ-gwU"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cB5-fH-jXI">
                                 <rect key="frame" x="0.0" y="401" width="207" height="200.5"/>
@@ -541,6 +569,9 @@
                                 <state key="normal" title="Lettuce">
                                     <color key="titleColor" red="0.060307070535348957" green="0.199159264" blue="0.031250058557338624" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="lettucePressed:" destination="nbg-7d-e8W" eventType="touchUpInside" id="nZp-Zh-2zU"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AIK-KZ-Dma">
                                 <rect key="frame" x="0.0" y="601.5" width="207" height="200.5"/>
@@ -549,6 +580,9 @@
                                 <state key="normal" title="Garlic">
                                     <color key="titleColor" red="0.199159264" green="0.199159264" blue="0.199159264" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="garlicPressed:" destination="nbg-7d-e8W" eventType="touchUpInside" id="3h4-jl-8hH"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y0z-hN-1Jk">
                                 <rect key="frame" x="207" y="601.5" width="207" height="200.5"/>
@@ -568,6 +602,9 @@
                                 <state key="normal" title="Onion">
                                     <color key="titleColor" red="0.199159264" green="0.0" blue="0.19028960856157506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="onionPressed:" destination="nbg-7d-e8W" eventType="touchUpInside" id="Oyz-de-2a7"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -696,6 +733,9 @@
                                         <state key="normal" title="Done">
                                             <color key="titleColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="ru1-6I-dqL" eventType="touchUpInside" id="xlB-qx-0Hu"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -710,6 +750,9 @@
                         <viewLayoutGuide key="safeArea" id="nbk-AD-cXr"/>
                     </view>
                     <navigationItem key="navigationItem" id="b2g-td-fuu"/>
+                    <connections>
+                        <outlet property="textField" destination="LIU-6N-xsp" id="oCs-FQ-nue"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIP-zn-6JB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -717,7 +760,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8OK-1t-UiV"/>
+        <segue reference="1YZ-t0-dFa"/>
         <segue reference="CPk-l6-4DL"/>
     </inferredMetricsTieBreakers>
 </document>

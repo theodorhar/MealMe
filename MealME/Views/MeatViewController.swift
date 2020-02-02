@@ -10,8 +10,20 @@ import UIKit
 
 class MeatViewController: UIViewController {
     let repo = Repository()
+    @IBAction func beefPressed(_ sender: Any) {
+        API.ingredients.insert("beef")
+    }
+    
+    @IBAction func fishPressed(_ sender: Any) {
+        API.ingredients.insert("fish")
+    }
+    
+    @IBAction func porkPressed(_ sender: Any) {
+        API.ingredients.insert("pork")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(API.ingredients)
 
         // Do any additional setup after loading the view.
     }

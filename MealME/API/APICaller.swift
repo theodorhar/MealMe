@@ -9,7 +9,7 @@
 import Foundation
 
 class API {
-    
+    static var ingredients:Set<String> = []
     let url_base = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"
     // Gets the posts json data and returns it converted as a dictionary
     let headers = [
