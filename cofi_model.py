@@ -37,6 +37,7 @@ def add_bucketed_col(data:pd.DataFrame, feature_columns:list, col:str,num_bucket
     feature_columns.append(feature_col)
 
 add_bucketed_col(recipes,feature_columns,"rating",10)
+add_cross(recipes, feature_columns, "directions_bul_len", "directions_char_len", 10, 10, 100)
 #add_cross(recipes,feature_columns,"prep","cook",7,7,100)
 
 

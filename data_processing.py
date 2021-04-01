@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
+import re
 from glob import glob
 
 #generates a dataframe of raw data
@@ -29,8 +30,13 @@ def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipes['rating'] = data['rating']
     recipes['ingredients'] = data['ingredients']
     recipes['ingredients'] = recipes['ingredients'].apply(lambda x: parse_ingredients(x))
+    recipes['ingredient_len'] = recipes['ingredients'].apply(lambda x: len(x))
+    recipes['directions_len'] = data['directions'].apply(lambda x: len(re.split(r'[0-9]\.',x)))
+    recipes['directions_sent_len'] = data['directions'].apply(lambda x: len(x.split('.')))
+    recipes['directions_char_len'] = data['directions'].apply(lambda x: len(x))
+
     return recipes
 
 def parse_ingredients(s: str) -> list:
-    out = []
+    out = s.split(', ')
     return out
