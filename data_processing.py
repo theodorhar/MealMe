@@ -36,7 +36,33 @@ def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipes['directions_char_len'] = data['directions'].apply(lambda x: len(x))
 
     return recipes
-
-def parse_ingredients(s: str) -> list:
-    out = s.split(', ')
+#standardize ingredients
+def parse_ingredients(input_str: str) -> list:
+    splitstr = input_str.split(', ')
+    out = []
+    words = (r'large|medium|small|and|cut|into|sheet(s)?|frozen| in |half|crosswise | raw'
+    r'|lengthwise|pinch|whole|short|long| of |torn|strip(s)?|halves|inch(es)?|centimeter(s)?|'
+    r'ground| thin(ly)?| thick(ly)?|pieces|cup(s)?|teaspoon(s)?|tablespoon(s)?| can | cube(s)?|pounds|pound'
+    r'for|frying|end(s)?|dash(es)?|ounce(s)?|clove(s)?|bunch(es)?|(?<!\w)or(?!\w)|(?<!\w)to(?!\w)|taste|fresh(ly)?'
+    r'such|for |coarse(ly)?|(non)?fat |stems|more|(?<!\w)as(?!\w)|fatfree|lightly|beaten'
+    r'extravirgin|slice(s)?|round|diameter|package(s)?|without|shells| room| temperature|garnish'
+    r'slice(s)?|jar|loaf|container|the liquid|fine(ly)?|across bones|drop(s)|can(s)? |(?<= )d(?!\w)|(?<!\w)d(?= )'
+    r'grain|sprig(s)?|(?<!pork )ear(s)? |(low)?sodium|head |ium |boiling |(?<!\w)log(?!\w)'
+    r'leaf|leaves|envelope')
+    for item in splitstr:
+        s = item
+        #remove parens
+        s = re.sub(r'\(.*\)','',s.strip())
+        #remove symbols
+        s = re.sub(r'([0-9])*([^\w\s])*',"",s.strip())
+        s = re.sub(r'[¼½¾⅐⅑⅒⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞↉]+', "", s.strip())
+        #remove words
+        s = re.sub(r'(\w)+(?<! se| ch)(ed)(?!d)', '',s.strip())
+        s = re.sub(words, '',s.strip())
+        #round 2
+        s = re.sub(r'pound(s)?|fresh|ly  |thinly','',s.strip())
+        
+        #done with regex
+        if s.strip() != "":
+            out.append(s.strip())
     return out
