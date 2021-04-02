@@ -48,7 +48,7 @@ def parse_ingredients(input_str: str) -> list:
     r'extravirgin|slice(s)?|round|diameter|package(s)?|without|shells| room| temperature|garnish'
     r'slice(s)?|jar|loaf|container|the liquid|fine(ly)?|across bones|drop(s)|can(s)? |(?<= )d(?!\w)|(?<!\w)d(?= )'
     r'grain|sprig(s)?|(?<!pork )ear(s)? |(low)?sodium|head |ium |boiling |(?<!\w)log(?!\w)'
-    r'leaf|leaves|envelope')
+    r'leaf|leaves|envelope|roma ')
     for item in splitstr:
         s = item
         #remove parens

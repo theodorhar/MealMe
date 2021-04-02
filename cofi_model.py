@@ -9,10 +9,9 @@ DEBUG = True
 #takes in dataset and user embedding, outputs recommendations
 raw_data = data_processing.get_raw_data(debug = DEBUG)
 recipes = data_processing.get_recipes(raw_data, debug = DEBUG)
-print(recipes)
 recipe_lookup = data_processing.get_recipe_lookup(raw_data, debug=DEBUG)
-for x in recipes['ingredients'][7500:9500]:
-    print(x)
+
+print(recipes)
 feature_columns = []
 #feature column definition
 #adds a cross of two (bucketed) columns from a dataframe to the feature_columns list
