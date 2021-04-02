@@ -3,15 +3,13 @@ import numpy as np
 import tensorflow as tf
 import data_processing
 import collections
+#takes in dataset and user embedding, outputs recommendations
 DEBUG = True
 
-
-#takes in dataset and user embedding, outputs recommendations
+#get data
 raw_data = data_processing.get_raw_data(debug = DEBUG)
 recipes = data_processing.get_recipes(raw_data, debug = DEBUG)
 recipe_lookup = data_processing.get_recipe_lookup(raw_data, debug=DEBUG)
-
-print(recipes)
 feature_columns = []
 #feature column definition
 #adds a cross of two (bucketed) columns from a dataframe to the feature_columns list

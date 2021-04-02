@@ -15,6 +15,7 @@ def get_raw_data(debug = False) -> pd.DataFrame:
             frames.append(df)
     raw_data = pd.concat(frames,axis = 0)
     raw_data.drop_duplicates(inplace = True)
+    raw_data.dropna(axis = 1, inplace = True, thresh = 20000)
     if (debug):
         print("Data read, n =",len(raw_data.index))
     return raw_data
@@ -29,12 +30,17 @@ def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipes = pd.DataFrame([],columns = [])
     recipes['rating'] = data['rating']
     recipes['ingredients'] = data['ingredients']
-    recipes['ingredients'] = recipes['ingredients'].apply(lambda x: parse_ingredients(x))
+    recipes['ingredients'] = recipes['ingredients'].apply(parse_ingredients)
     recipes['ingredient_len'] = recipes['ingredients'].apply(lambda x: len(x))
     recipes['directions_len'] = data['directions'].apply(lambda x: len(re.split(r'[0-9]\.',x)))
     recipes['directions_sent_len'] = data['directions'].apply(lambda x: len(x.split('.')))
     recipes['directions_char_len'] = data['directions'].apply(lambda x: len(x))
-
+    recipes['prep'] = data['prep'].apply(parse_time)
+    recipes['cook'] = data['cook'].apply(parse_time)
+    recipes['ready'] = data['ready in'].apply(parse_time)
+    recipes['calories'] = data['calories']
+    if debug:
+        print("Recipe data loaded")
     return recipes
 #standardize ingredients
 def parse_ingredients(input_str: str) -> list:
@@ -48,7 +54,7 @@ def parse_ingredients(input_str: str) -> list:
     r'extravirgin|slice(s)?|round|diameter|package(s)?|without|shells| room| temperature|garnish'
     r'slice(s)?|jar|loaf|container|the liquid|fine(ly)?|across bones|drop(s)|can(s)? |(?<= )d(?!\w)|(?<!\w)d(?= )'
     r'grain|sprig(s)?|(?<!pork )ear(s)? |(low)?sodium|head |ium |boiling |(?<!\w)log(?!\w)'
-    r'leaf|leaves|envelope|roma ')
+    r'leaf|leaves|envelope|roma |quart(s)|bottle|cold| hot |link ')
     for item in splitstr:
         s = item
         #remove parens
@@ -60,9 +66,21 @@ def parse_ingredients(input_str: str) -> list:
         s = re.sub(r'(\w)+(?<! se| ch)(ed)(?!d)', '',s.strip())
         s = re.sub(words, '',s.strip())
         #round 2
-        s = re.sub(r'pound(s)?|fresh|ly  |thinly','',s.strip())
+        s = re.sub(r'pound(s)?|fresh|ly  |thin(ly)?|(?<!\w)s ','',s.strip())
         
         #done with regex
         if s.strip() != "":
             out.append(s.strip())
+    return out
+#parse a time using "hr" and "mins" formatting
+def parse_time(input_str: str) -> int:
+    out = 0
+    if len(input_str) < 5 and not bool(re.match(r'[0-9]* hr',input_str.strip())):
+        return None
+    if bool(re.match(r'[0-9]* hr',input_str.strip())):
+        out += 60 * int(input_str[0])
+        if len(input_str.split(' ')) > 2:
+            out += int(input_str.split(' ')[2])
+    else:
+        out = int(input_str.split(" ")[0])
     return out
