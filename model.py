@@ -9,7 +9,9 @@ DEBUG = True
 #get data
 raw_data = data_processing.get_raw_data(debug = DEBUG)
 recipes = data_processing.get_recipes(raw_data, debug = DEBUG)
+print(recipes)
 recipe_lookup = data_processing.get_recipe_lookup(raw_data, debug=DEBUG)
+
 feature_columns = []
 #feature column definition
 #adds a cross of two (bucketed) columns from a dataframe to the feature_columns list
@@ -36,5 +38,3 @@ def add_bucketed_col(data:pd.DataFrame, feature_columns:list, col:str,num_bucket
 add_bucketed_col(recipes,feature_columns,"rating",10)
 add_cross(recipes, feature_columns, ["directions_sent_len", "directions_char_len"], [10,10], 100)
 #add_cross(recipes,feature_columns,"prep","cook",7,7,100)
-
-

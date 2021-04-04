@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 import pandas as pd
-#storage of preferences
+#storage of user preferences
 class Preferences(object):
     _regions = ['Spain', 'Thailand', 'Misc.: Portugal', 'Japan', 'British Isles', 'China', 'France', 
         'DACH Countries', 'South East Asia', 'Middle East', 'Canada', 'Italy', 'Mexico', 'Misc.: Dutch',
@@ -11,3 +11,4 @@ class Preferences(object):
     _ingredientlist = [""]
     def __init__(self):
         self._dataFrame = pd.DataFrame(data = [], columns = self._cols)
+    

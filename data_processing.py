@@ -26,7 +26,6 @@ def get_recipe_lookup(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipe_lookup['url'] = data['url']
     return recipe_lookup
 def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
-    #['rating','region', 'ingredients', 'directions', 'prep', 'cook', 'ready in', 'calories']
     recipes = pd.DataFrame([],columns = [])
     recipes['rating'] = data['rating']
     recipes['ingredients'] = data['ingredients']
@@ -77,10 +76,14 @@ def parse_time(input_str: str) -> int:
     out = 0
     if len(input_str) < 5 and not bool(re.match(r'[0-9]* hr',input_str.strip())):
         return None
-    if bool(re.match(r'[0-9]* hr',input_str.strip())):
+    if bool(re.match(r'[0-9]* hr(s)? [0-9]* mins',input_str.strip())):
         out += 60 * int(input_str[0])
         if len(input_str.split(' ')) > 2:
             out += int(input_str.split(' ')[2])
-    else:
+    elif bool(re.match(r'[0-9]* hr',input_str.strip())):
+        out += 60 * int(input_str[0])
+    elif bool(re.match(r'[0-9]* mins',input_str.strip())):
         out = int(input_str.split(" ")[0])
+    else:
+        return None
     return out
