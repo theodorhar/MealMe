@@ -9,7 +9,7 @@ def get_raw_data(debug = False) -> pd.DataFrame:
     columns = ['url', 'name', 'rating', 'ingredients', 'directions', 'prep', 'cook', 'ready in', 'calories', 'ratingcount']
     raw_data = pd.DataFrame(data=[], columns=columns)
     frames = []
-    for file_name in glob('*.json'):
+    for file_name in glob('data/*.json'):
         with open(file_name) as f:
             df = pd.read_json(f)
             frames.append(df)
