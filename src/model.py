@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 import tensorflow as tf
-import data_processing
 import collections
+from . import data_processing
 #takes in dataset and user embedding, outputs recommendations
 DEBUG = True
 
