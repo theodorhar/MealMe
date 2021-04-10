@@ -27,6 +27,7 @@ def get_recipe_lookup(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     return recipe_lookup
 def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipes = pd.DataFrame([],columns = [])
+    
     recipes['rating'] = data['rating']
     recipes['ingredients'] = data['ingredients']
     recipes['ingredients'] = recipes['ingredients'].apply(parse_ingredients)
@@ -38,6 +39,7 @@ def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipes['cook'] = data['cook'].apply(parse_time)
     recipes['ready'] = data['ready in'].apply(parse_time)
     recipes['calories'] = data['calories']
+    recipes['id'] = range(0,len(recipes))
     if debug:
         print("Recipe data loaded")
     return recipes

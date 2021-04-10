@@ -1,2 +1,2 @@
 import tests
-tests.user_tests.init_tests()
+tests.user_tests.all_tests()
