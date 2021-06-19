@@ -1,4 +1,4 @@
-from . import data_processing, user
+from . import user
 
 import collections as col
 import pandas as pd
@@ -28,11 +28,10 @@ def cosine_similarity(u:user, rec:np.array):
 def get_recommendations(u:user, df:pd.DataFrame, n:int) -> np.array:
     ratings = []
     relevant_ingredients = n_most_freq(df['ingredients'],50)
-    for r in df.iloc()[0:1000].iloc():
+    ing_favor = u.get_favorability_array(relevant_ingredients,df)
+    for r in df.iloc():
         one_hot_ingredients = []
         for x in relevant_ingredients:
             one_hot_ingredients.append(1 if x in r['ingredients'] else 0)
-        if r['id'] % 50 == 0:
-            print(r['id'],"searched, ", len(df['id']) - r['id'],"to go.")
-        ratings.append( (r['id'],cosine_similarity(u.get_favorability_array(relevant_ingredients,df),one_hot_ingredients)) ) #tuple
+        ratings.append( (r['id'],cosine_similarity(ing_favor,one_hot_ingredients)) ) #tuple
     return heapq.nlargest(n,ratings,key = lambda x:x[1])

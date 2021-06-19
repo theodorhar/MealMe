@@ -1,5 +1,5 @@
 import pytest
-from src import user,data_processing
+from src import user,load_data
 def all_tests():
     init_tests()
     add_tests()
@@ -53,7 +53,7 @@ def add_tests():
 
     print("PASS: User Tests: Add Tests")
 def favorability_array_tests():
-    recipes = data_processing.get_recipes(data_processing.get_raw_data())
+    recipes = load_data.get_recipe_data()
     user1 = user.User()
     assert user1._weight_matrix.tolist() == [2,2,1,5]
     user1.add_view(0)
