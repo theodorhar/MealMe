@@ -13,7 +13,6 @@ def get_recipe_data(debug = False) -> pd.DataFrame:
     data = pd.concat(frames,axis = 0)
     data.drop_duplicates(inplace = True)
     data.dropna(axis = 1, inplace = True)
-    print(data)
     if (debug):
         print("Data read, n =",len(data.index))
     return data
@@ -30,7 +29,6 @@ def get_recipe_lookup(debug = False) -> pd.DataFrame:
     data = pd.concat(frames,axis = 0)
     data.drop_duplicates(inplace = True)
     data.dropna(axis = 1, inplace = True)
-    print(data)
     if (debug):
         print("Data read, n =",len(data.index))
     return data
