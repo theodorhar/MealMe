@@ -30,8 +30,13 @@ class GetCard(Resource):
         card = dict()
         recipe = lookup.query('id ==' + str(recipe_id)).to_dict()
         print(recipe)
-        card['id'] = recipe['id']
-        card['name'] = recipe['name']
+        #title,url,photo_url,rating_stars,review_count,cook_time_minutes,id
+        card['title'] = recipe['title']
         card['url'] = recipe['url']
+        card['photo_url'] = recipe['photo_url']
+        card['rating_stars'] = recipe['rating_stars']
+        card['review_count'] = recipe['review_count']
+        card['cook_time_minutes'] = recipe['cook_time_minutes']
+        card['id'] = recipe['id']
         return jsonify(card)
 api.add_resource(GetCard, '/recipecard/<int:recipe_id>/')
