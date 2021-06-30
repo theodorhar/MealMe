@@ -1,5 +1,4 @@
 from src import user,content_based_rec,load_data
-import pytest
 DEBUG = False
 def all_tests():
     simple_rec()

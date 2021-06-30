@@ -1,5 +1,5 @@
-import pandas as pd
 from glob import glob
+import pandas as pd
 
 def get_recipe_data(debug = False) -> pd.DataFrame:
     columns = ['rating','ingredients','ingredient_len','directions_len','directions_sent_len','directions_char_len','prep','cook','ready','calories','id']
@@ -18,7 +18,7 @@ def get_recipe_data(debug = False) -> pd.DataFrame:
     return data
 
 def get_recipe_lookup(debug = False) -> pd.DataFrame:
-    columns = ['name','url']
+    columns = ['name','url','id']
     data = pd.DataFrame(data=[], columns=columns)
     frames = []
     #filename below
@@ -29,6 +29,7 @@ def get_recipe_lookup(debug = False) -> pd.DataFrame:
     data = pd.concat(frames,axis = 0)
     data.drop_duplicates(inplace = True)
     data.dropna(axis = 1, inplace = True)
+    data['id'] = range(0,len(data))
     if (debug):
         print("Data read, n =",len(data.index))
     return data
