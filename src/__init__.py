@@ -22,7 +22,8 @@ class Ping(Resource):
         return {
         'message': 'pong!'
     }
-    
+api.add_resource(Ping, '/ping')
+
 class GetCard(Resource):
     def get(self,recipe_id):
         #get card data dict
@@ -33,5 +34,4 @@ class GetCard(Resource):
         card['name'] = recipe['name']
         card['url'] = recipe['url']
         return jsonify(card)
-api.add_resource(Ping, '/ping')
 api.add_resource(GetCard, '/recipecard/<int:recipe_id>/')
