@@ -6,23 +6,23 @@ from glob import glob
 #generates a dataframe of raw data from jsons within the data folder
 def get_raw_data(debug = False) -> pd.DataFrame:
     #columns = ['url', 'name', 'rating', 'ingredients', 'directions', 'prep', 'cook', 'ready in', 'calories', 'ratingcount']
-    columns = ['author', 'cook_time_minutes', 'description', 'error', 'footnotes', 'ingredients', 'instructions', 'photo_url', 'prep_time_minutes', 'rating_stars', 'review_count', 'time_scraped', 'title', 'total_time_minutes', 'url']
+    columns = ["id","dek","hed","author","type","url","photoData","tag","aggregateRating","ingredients","prepSteps","reviewsCount","willMakeAgainPct","dateCrawled"]
     raw_data = pd.DataFrame(data=[], columns=columns)
     frames = []
-    for file_name in glob('data/*.json'): #change this to file name of allrecipe data source
+    for file_name in glob('data/epicurious-recipes.json'): #change this to file name of allrecipe data source
         with open(file_name) as f:
             df = pd.read_json(f, lines = True)
             frames.append(df)
     raw_data = pd.concat(frames,axis = 0)
-    raw_data = raw_data[raw_data.cook_time_minutes != 0]
-    raw_data = raw_data[raw_data.review_count != 0]
+    #raw_data = raw_data[raw_data.cook_time_minutes != 0]
+    #raw_data = raw_data[raw_data.review_count != 0]
     #raw_data.drop_duplicates(inplace = True)
     #raw_data.dropna(axis = 1, inplace = True)
     if (debug):
         print("Data read, n =",len(raw_data.index))
     return raw_data
-#data needed for a car
-def write_recipe_lookup(data:pd.DataFrame,path: str,debug = False) -> pd.DataFrame:
+#data needed for a card
+def write_recipe_lookup_allrecipes(data:pd.DataFrame,path: str,debug = False) -> pd.DataFrame:
     recipe_lookup = pd.DataFrame([], columns = [])
     recipe_lookup['title'] = data['title']
     recipe_lookup['url'] = data['url']
@@ -30,13 +30,59 @@ def write_recipe_lookup(data:pd.DataFrame,path: str,debug = False) -> pd.DataFra
     recipe_lookup['rating_stars'] = data['rating_stars']
     recipe_lookup['review_count'] = data['review_count']
     recipe_lookup['cook_time_minutes'] = data['cook_time_minutes']
-    recipe_lookup['id'] = range(0,len(recipe_lookup))
     if (debug):
         print(recipe_lookup)
     recipe_lookup.to_csv(path,index = False)
-recipes = get_raw_data(debug = True)
-path = "data/recipe_lookup.csv"
-write_recipe_lookup(recipes, path, debug=True)
+def write_recipe_lookup_bbccouk(data:pd.DataFrame,path: str,debug = False) -> pd.DataFrame:
+    recipe_lookup = pd.DataFrame([], columns = [])
+    recipe_lookup['title'] = data['title']
+    recipe_lookup['url'] = data['url']
+    recipe_lookup['photo_url'] = data['photo_url']
+    recipe_lookup['rating_stars'] = None
+    recipe_lookup['review_count'] = 0
+    recipe_lookup['cook_time_minutes'] = data['cooking_time_minutes']
+    if (debug):
+        print(recipe_lookup)
+    recipe_lookup.to_csv(path,index = False)
+def write_recipe_lookup_cookstr(data:pd.DataFrame,path: str,debug = False) -> pd.DataFrame:
+    recipe_lookup = pd.DataFrame([], columns = [])
+    recipe_lookup['title'] = data['title']
+    recipe_lookup['url'] = data['url']
+    recipe_lookup['photo_url'] = data['photo_url']
+    recipe_lookup['rating_stars'] = data['rating_value']
+    recipe_lookup['review_count'] = data['rating_count']
+    recipe_lookup['cook_time_minutes'] = data['total_time']
+    if (debug):
+        print(recipe_lookup)
+    recipe_lookup.to_csv(path,index = False)
+def write_recipe_lookup_epic(data:pd.DataFrame,path: str,debug = False) -> pd.DataFrame:
+    recipe_lookup = pd.DataFrame([], columns = [])
+    recipe_lookup['title'] = data['hed']
+    recipe_lookup['url'] = "epicurious.com"+data['url']
+    photo_ids = [x['id'] for x in data['photoData'].to_dict().values()]
+    recipe_lookup['photo_url'] = photo_ids
+    recipe_lookup['photo_url']="https://assets.epicurious.com/photos/"+recipe_lookup['photo_url']+"/"
+    recipe_lookup['rating_stars'] = data['aggregateRating'] / 4 * 5
+    recipe_lookup['review_count'] = data['reviewsCount']
+    recipe_lookup['cook_time_minutes'] = 0
+    if (debug):
+        print(recipe_lookup)
+    recipe_lookup.to_csv(path,index = False)
+# recipes = get_raw_data(debug = True)
+# path = "data/more/recipe_lookup_epic.csv"
+# write_recipe_lookup_epic(recipes, path, debug=True)
+def add_index(path:str, debug = False)->None:
+    columns = ['title','url','photo_url','rating_stars','review_count','cook_time_minutes','id']
+    data = pd.DataFrame(data=[], columns=columns)
+    frames = []
+    for file_name in glob(path):
+        with open(file_name) as f:
+            df = pd.read_csv(f)
+            frames.append(df)
+    data = pd.concat(frames,axis = 0)
+    data['id'] = range(0,len(data))
+    data.to_csv(path,index = False)
+add_index('data/recipe_lookup.csv')
 def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipes = pd.DataFrame([],columns = [])
     recipes['rating'] = data['rating']
