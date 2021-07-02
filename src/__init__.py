@@ -29,7 +29,6 @@ class GetCard(Resource):
         #get card data dict
         card = dict()
         recipe = lookup.query('id ==' + str(recipe_id)).to_dict()
-        print(recipe)
         #title,url,photo_url,rating_stars,review_count,cook_time_minutes,id
         card['title'] = recipe['title']
         card['url'] = recipe['url']
