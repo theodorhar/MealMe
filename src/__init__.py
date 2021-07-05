@@ -16,7 +16,7 @@ app.config.from_object(app_settings)
 #load entire dataset into memory
 lookup = get_recipe_lookup(debug = DEBUG)
 #construct favored
-querystr = 'id < 62343 and review_count > 3000 or id > 80859 and review_count > 500'
+querystr = 'id < 62343 and review_count > 3000 or id > 80859 and review_count > 400'
 favored = lookup.query(querystr)
 # define services
 class Ping(Resource):
@@ -44,15 +44,15 @@ api.add_resource(GetCard, '/recipecard/<int:recipe_id>/')
 
 class default(Resource):
     def get(self):
-        if len(favored) > 10:
+        NUMRESULTS = 20
+        if len(favored) > NUMRESULTS:
             indices = []
             alreadyDisplayed = []
-            for _ in range(10):
+            for _ in range(NUMRESULTS):
                 index = random.randint(0,len(favored)-1)
                 while(index in alreadyDisplayed):
                     index = random.randint(0,len(favored)-1)
                 indices.append(index)
-                
             return jsonify(favored.iloc[indices].to_dict())
         else:
             return jsonify(favored.to_dict())
