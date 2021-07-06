@@ -53,7 +53,7 @@ class default(Resource):
                 while(index in alreadyDisplayed):
                     index = random.randint(0,len(favored)-1)
                 indices.append(index)
-            return jsonify(favored.iloc[indices].to_dict())
+            return jsonify(favored.iloc[indices].reset_index().to_dict())
         else:
             return jsonify(favored.to_dict())
 api.add_resource(default, '/default')
