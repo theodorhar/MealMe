@@ -36,13 +36,9 @@ class Default(Resource):
     def get(self):
         NUMRESULTS = 20
         if len(favored) > NUMRESULTS:
-            indices = []
-            alreadyDisplayed = []
-            for _ in range(NUMRESULTS):
-                index = random.randint(0,len(favored)-1)
-                while(index in alreadyDisplayed):
-                    index = random.randint(0,len(favored)-1)
-                indices.append(index)
+            indices = list(range(len(favored)))
+            random.shuffle(indices)
+            indices = indices[:NUMRESULTS]
             return Response(favored.iloc[indices].to_json(orient="records"), mimetype='application/json')
         else:
             return jsonify(favored.to_dict())
