@@ -28,21 +28,11 @@ api.add_resource(Ping, '/ping')
 
 class GetCard(Resource):
     def get(self,recipe_id):
-        #get card data dict
-        card = dict()
-        recipe = lookup.query('id ==' + str(recipe_id)).to_dict()
         #title,url,photo_url,rating_stars,review_count,cook_time_minutes,id
-        card['title'] = recipe['title'][recipe_id]
-        card['url'] = recipe['url'][recipe_id]
-        card['photo_url'] = recipe['photo_url'][recipe_id]
-        card['rating_stars'] = recipe['rating_stars'][recipe_id]
-        card['review_count'] = recipe['review_count'][recipe_id]
-        card['cook_time_minutes'] = recipe['cook_time_minutes'][recipe_id]
-        card['id'] = recipe['id'][recipe_id]
-        return jsonify(card)
+        return Response(lookup.query('id ==' + str(recipe_id)).to_json(orient="records"), mimetype='application/json')
 api.add_resource(GetCard, '/recipecard/<int:recipe_id>/')
 
-class default(Resource):
+class Default(Resource):
     def get(self):
         NUMRESULTS = 20
         if len(favored) > NUMRESULTS:
@@ -56,4 +46,4 @@ class default(Resource):
             return Response(favored.iloc[indices].to_json(orient="records"), mimetype='application/json')
         else:
             return jsonify(favored.to_dict())
-api.add_resource(default, '/default')
+api.add_resource(Default, '/default')
