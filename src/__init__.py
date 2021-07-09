@@ -1,6 +1,6 @@
 
 import os, random
-from flask import Flask,jsonify
+from flask import Flask,jsonify,Response
 from flask_restx import Api,Resource
 from src.load_data import get_recipe_lookup
 DEBUG = False
@@ -53,7 +53,7 @@ class default(Resource):
                 while(index in alreadyDisplayed):
                     index = random.randint(0,len(favored)-1)
                 indices.append(index)
-            return jsonify(favored.iloc[indices].reset_index().to_dict())
+            return Response(favored.iloc[indices].to_json(orient="records"), mimetype='application/json')
         else:
             return jsonify(favored.to_dict())
 api.add_resource(default, '/default')

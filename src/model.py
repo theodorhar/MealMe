@@ -1,16 +1,16 @@
+from src import load_data
 import pandas as pd
 import numpy as np
 import tensorflow as tf
 import collections
-from . import data_processing
+from load_data import get_recipe_data,get_recipe_lookup
 #takes in dataset and user embedding, outputs recommendations
 DEBUG = True
 
-#get data
-raw_data = data_processing.get_raw_data(debug = DEBUG)
-recipes = data_processing.get_recipes(raw_data, debug = DEBUG)
+
+recipes = get_recipe_data()
 print(recipes)
-recipe_lookup = data_processing.get_recipe_lookup(raw_data, debug=DEBUG)
+recipe_lookup = get_recipe_lookup()
 
 feature_columns = []
 #feature column definition
