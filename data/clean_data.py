@@ -6,16 +6,17 @@ from glob import glob
 #generates a dataframe of raw data from jsons within the data folder
 def get_raw_data(debug = False) -> pd.DataFrame:
     #columns = ['url', 'name', 'rating', 'ingredients', 'directions', 'prep', 'cook', 'ready in', 'calories', 'ratingcount']
-    columns = ["id","dek","hed","author","type","url","photoData","tag","aggregateRating","ingredients","prepSteps","reviewsCount","willMakeAgainPct","dateCrawled"]
+    columns = ["author","prep_time_minutes","description","footnotes", "ingredients","photo_url","cook_time_minutes","rating_stars","review_count","time_scraped","title","total_time_minutes","url"]
+    #columns = ["id","dek","hed","author","type","url","photoData","tag","aggregateRating","ingredients","prepSteps","reviewsCount","willMakeAgainPct","dateCrawled"]
     raw_data = pd.DataFrame(data=[], columns=columns)
     frames = []
-    for file_name in glob('data/epicurious-recipes.json'): #change this to file name of allrecipe data source
+    for file_name in glob('data/allrecipes-recipes.json'): #change this to file name of allrecipe data source
         with open(file_name) as f:
             df = pd.read_json(f, lines = True)
             frames.append(df)
     raw_data = pd.concat(frames,axis = 0)
-    #raw_data = raw_data[raw_data.cook_time_minutes != 0]
-    #raw_data = raw_data[raw_data.review_count != 0]
+    # raw_data = raw_data[raw_data.cook_time_minutes != 0]
+    raw_data = raw_data[raw_data.review_count != 0]
     #raw_data.drop_duplicates(inplace = True)
     #raw_data.dropna(axis = 1, inplace = True)
     if (debug):
@@ -69,8 +70,8 @@ def write_recipe_lookup_epic(data:pd.DataFrame,path: str,debug = False) -> pd.Da
         print(recipe_lookup)
     recipe_lookup.to_csv(path,index = False)
 # recipes = get_raw_data(debug = True)
-# path = "data/more/recipe_lookup_epic.csv"
-# write_recipe_lookup_epic(recipes, path, debug=True)
+# path = "data/more/recipe_lookup_allrecipes.csv"
+# write_recipe_lookup_allrecipes(recipes, path, debug=True)
 def add_index(path:str, debug = False)->None:
     columns = ['title','url','photo_url','rating_stars','review_count','cook_time_minutes','id']
     data = pd.DataFrame(data=[], columns=columns)
@@ -82,7 +83,7 @@ def add_index(path:str, debug = False)->None:
     data = pd.concat(frames,axis = 0)
     data['id'] = range(0,len(data))
     data.to_csv(path,index = False)
-add_index('data/recipe_lookup.csv')
+add_index(path = 'data/recipe_lookup.csv')
 def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipes = pd.DataFrame([],columns = [])
     recipes['rating'] = data['rating']
