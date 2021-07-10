@@ -34,7 +34,7 @@ api.add_resource(GetCard, '/recipecard/<int:recipe_id>/')
 
 class Default(Resource):
     def get(self):
-        NUMRESULTS = 20
+        NUMRESULTS = 24
         if len(favored) > NUMRESULTS:
             indices = list(range(len(favored)))
             random.shuffle(indices)
