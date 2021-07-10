@@ -83,7 +83,7 @@ def add_index(path:str, debug = False)->None:
     data = pd.concat(frames,axis = 0)
     data['id'] = range(0,len(data))
     data.to_csv(path,index = False)
-add_index(path = 'data/recipe_lookup.csv')
+#add_index(path = 'data/recipe_lookup.csv')
 def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipes = pd.DataFrame([],columns = [])
     recipes['rating'] = data['rating']
