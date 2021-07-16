@@ -1,8 +1,12 @@
 
 import os, random
-from flask import Flask,jsonify,Response
+from flask import Flask,jsonify,Response,request
 from flask_restx import Api,Resource
+from rapidfuzz import fuzz
+from rapidfuzz import process
+
 from src.load_data import get_recipe_lookup
+
 DEBUG = False
 
 # instantiate the app
@@ -34,7 +38,7 @@ api.add_resource(GetCard, '/recipecard/<int:recipe_id>/')
 
 class Default(Resource):
     def get(self):
-        NUMRESULTS = 24
+        NUMRESULTS = 30
         if len(favored) > NUMRESULTS:
             indices = list(range(len(favored)))
             random.shuffle(indices)
@@ -43,3 +47,11 @@ class Default(Resource):
         else:
             return jsonify(favored.to_dict())
 api.add_resource(Default, '/default')
+
+class Search(Resource):
+    def get(self):
+        NUMRESULTS = 30
+        query = request.args.get('q')
+        choices = lookup['title'].tolist()
+        return jsonify(process.extract(query,choices,limit = NUMRESULTS,scorer=fuzz.partial_ratio))
+api.add_resource(Search, '/search')

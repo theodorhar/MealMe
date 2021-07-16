@@ -2,3 +2,4 @@ flask==1.1.4
 flask-restx==0.4.0
 numpy==1.19.5
 pandas==1.2.4 #pandas depends on numpy, so it is installed after numpy
+rapidfuzz==1.4.1
