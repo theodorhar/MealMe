@@ -52,6 +52,7 @@ api.add_resource(Default, '/default')
 class Search(Resource):
     def get(self):
         NUMRESULTS = 30
+        THRESHOLD = 80
         query = request.args.get('q')
         choices = lookup.loc[:,'title'].tolist()
         res = process.extract(query,choices,limit = NUMRESULTS,scorer=fuzz.partial_ratio)
@@ -60,8 +61,9 @@ class Search(Resource):
         #collect required information about card and output
         out = DataFrame()
         for _,percent_match,id in res:
-            card = lookup.query('id ==' + str(id)).copy()
-            card.loc[:,'percent_match'] = percent_match
-            out = out.append(card)
+            if percent_match > THRESHOLD:
+                card = lookup.query('id ==' + str(id)).copy()
+                card.loc[:,'percent_match'] = percent_match
+                out = out.append(card)
         return Response(out.to_json(orient="records"), mimetype='application/json')
 api.add_resource(Search, '/search')
