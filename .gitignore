@@ -8,3 +8,5 @@ env
 Dockerfile.prod
 *.json
 data/more
+/db/password.txt
+/db/users_password.txt

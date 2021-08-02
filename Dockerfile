@@ -18,6 +18,5 @@ RUN pip3 install -r requirements.txt
 
 # add app
 COPY . .
-
 # run server
 CMD python3 manage.py run -h 0.0.0.0

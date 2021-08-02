@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    secrets:
+      - db-password
+      - db-users-password
     volumes:
       - .:/usr/src/app
     ports:
@@ -14,3 +17,26 @@ services:
       - FLASK_APP=src/__init__.py
       - FLASK_ENV=development
       - APP_SETTINGS=src.config.DevelopmentConfig
+  db:
+    image: mysql:8.0.19
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=panoplydb
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+volumes:
+  db-data:
+secrets:
+  db-password:
+    file: db/password.txt
+  db-users-password:
+    file: db/users_password.txt

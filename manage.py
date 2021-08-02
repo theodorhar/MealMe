@@ -1,6 +1,5 @@
 
 from flask.cli import FlaskGroup
-import rapidfuzz
 from src import app
 
 cli = FlaskGroup(app)
