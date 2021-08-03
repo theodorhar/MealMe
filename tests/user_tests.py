@@ -1,5 +1,5 @@
 import pytest
-from src import user,load_data
+from web import user,load_data
 def all_tests():
     init_tests()
     add_tests()

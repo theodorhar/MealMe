@@ -1,6 +1,6 @@
 from flask_login import UserMixin
+from mysql.connector.connection import MySQLConnection
 
-from src import get_userpool
 #needs access to: current recipes database to fetch recipes
 class User(UserMixin):
     def __init__(self, id_, name, email, profile_pic):
@@ -10,8 +10,10 @@ class User(UserMixin):
         self.profile_pic = profile_pic
 
     @staticmethod
-    def get(user_id):
-        db = get_userpool().get_connection().cursor()
+    def get(connection: MySQLConnection, user_id: int):
+        if connection == None:
+            raise ConnectionError("Database connection is invalid")
+        db = connection.cursor()
         user = db.execute(
             "SELECT * FROM user WHERE id = ?", (user_id,)
         ).fetchone()
@@ -24,8 +26,10 @@ class User(UserMixin):
         return user
 
     @staticmethod
-    def create(id_, name, email, profile_pic):
-        db = get_userpool().get_connection().cursor()
+    def create(connection: MySQLConnection, id_: int, name: str, email: str, profile_pic: str):
+        if connection == None:
+            raise ConnectionError("Database connection is invalid")
+        db = connection.cursor()
         db.execute(
             "INSERT INTO user (id, name, email, profile_pic) "
             "VALUES (?, ?, ?, ?)",

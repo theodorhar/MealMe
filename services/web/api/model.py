@@ -1,4 +1,4 @@
-from src import load_data
+from web import load_data
 import pandas as pd
 import numpy as np
 import tensorflow as tf

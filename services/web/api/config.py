@@ -1,4 +1,4 @@
-# src/config.py
+# app/config.py
 
 class BaseConfig:
     TESTING = False

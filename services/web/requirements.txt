@@ -12,3 +12,5 @@ pyOpenSSL==19.0.0
 Flask-Login==0.4.1
 #db
 mysql-connector-python==8.0.26
+#wsgi server
+gunicorn==20.1.0
