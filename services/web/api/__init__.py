@@ -1,6 +1,6 @@
 
 import os, random, requests, json
-from flask import Flask,jsonify,Response,request,url_for,redirect,g
+from flask import Flask,jsonify,Response,request,url_for,redirect
 from flask_login import (
     LoginManager,
     current_user,
