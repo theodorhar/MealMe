@@ -27,6 +27,7 @@ services:
       - FLASK_APP=api/__init__.py
       - FLASK_ENV=development
       - APP_SETTINGS=api.config.DevelopmentConfig
+      - OAUTHLIB_INSECURE_TRANSPORT=1
     depends_on:
       - db
   db:

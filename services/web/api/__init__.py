@@ -26,7 +26,7 @@ google_client_id_file = open('/run/secrets/google-client-id', 'r')
 GOOGLE_CLIENT_ID = google_client_id_file.read()
 google_client_id_file.close()
 google_client_secret_file = open('/run/secrets/google-client-secret', 'r')
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
+GOOGLE_CLIENT_SECRET = google_client_secret_file.read()
 google_client_secret_file.close()
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
@@ -39,7 +39,7 @@ api = Api(app)
 # set config
 app_settings = os.getenv('APP_SETTINGS')
 app.config.from_object(app_settings)  
-
+app.secret_key = os.urandom(24)
 #load entire dataset into memory
 lookup = get_recipe_lookup(debug = DEBUG)
 #MySQL connection pool initialization
@@ -60,7 +60,10 @@ login_manager.init_app(app)
 # Flask-Login helper to retrieve a user from our db
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    conn = userpool.get_connection()
+    user = User.get(conn,user_id)
+    conn.close()
+    return user
 
 # OAuth 2 client setup
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
@@ -107,7 +110,7 @@ class Login(Resource):
         # scopes that let you retrieve user's profile from Google
         request_uri = client.prepare_request_uri(
             authorization_endpoint,
-            redirect_uri=request.base_url + "/callback",
+            redirect_uri= "https://localhost:1337/login/callback",
             scope=["openid", "email", "profile"],
         )
         return redirect(request_uri)
@@ -125,7 +128,7 @@ class Login_Callback(Resource):
         token_url, headers, body = client.prepare_token_request(
             token_endpoint,
             authorization_response=request.url,
-            redirect_url=request.base_url,
+            redirect_url="https://localhost:1337/login/callback",
             code=code
         )
         token_response = requests.post(
@@ -160,14 +163,15 @@ class Login_Callback(Resource):
         )
 
         # Doesn't exist? Add it to the database.
-        if not User.get(unique_id):
-            User.create(unique_id, users_name, users_email, picture)
-
+        conn = userpool.get_connection()
+        if not User.get(conn,unique_id):
+            User.create(conn,unique_id, users_name, users_email, picture)
+        conn.close()
         # Begin user session by logging the user in
         login_user(user)
 
         # Send user back to homepage
-        return redirect(url_for("index"))
+        return redirect("https://localhost:1337/index")
 
 api.add_resource(Login_Callback, "/login/callback")
 

@@ -14,9 +14,10 @@ class User(UserMixin):
         if connection == None:
             raise ConnectionError("Database connection is invalid")
         db = connection.cursor()
-        user = db.execute(
-            "SELECT * FROM user WHERE id = ?", (user_id,)
-        ).fetchone()
+        db.execute(
+            "SELECT * FROM user WHERE id = %s", (user_id,)
+        )
+        user = db.fetchone()
         if not user:
             return None
 
@@ -32,10 +33,10 @@ class User(UserMixin):
         db = connection.cursor()
         db.execute(
             "INSERT INTO user (id, name, email, profile_pic) "
-            "VALUES (?, ?, ?, ?)",
+            "VALUES (%s, %s, %s, %s)",
             (id_, name, email, profile_pic),
         )
-        db.commit()
+        connection.commit()
     # def __init__(self):
     #     self._age = None
     #     self._name = None
