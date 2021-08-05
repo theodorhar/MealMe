@@ -175,6 +175,12 @@ class Login_Callback(Resource):
 
 api.add_resource(Login_Callback, "/login/callback")
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("https://localhost:1337/index")
+
 
 class Card(Resource):
     def get(self,recipe_id):
