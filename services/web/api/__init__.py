@@ -110,7 +110,7 @@ class Login(Resource):
         # scopes that let you retrieve user's profile from Google
         request_uri = client.prepare_request_uri(
             authorization_endpoint,
-            redirect_uri= "https://localhost:1337/login/callback",
+            redirect_uri= request.base_url + "/callback",
             scope=["openid", "email", "profile"],
         )
         return redirect(request_uri)
@@ -128,7 +128,7 @@ class Login_Callback(Resource):
         token_url, headers, body = client.prepare_token_request(
             token_endpoint,
             authorization_response=request.url,
-            redirect_url="https://localhost:1337/login/callback",
+            redirect_url=request.base_url,
             code=code
         )
         token_response = requests.post(
@@ -171,7 +171,7 @@ class Login_Callback(Resource):
         login_user(user)
 
         # Send user back to homepage
-        return redirect("https://localhost:1337/index")
+        return redirect(url_for("home"))
 
 api.add_resource(Login_Callback, "/login/callback")
 
@@ -179,7 +179,7 @@ api.add_resource(Login_Callback, "/login/callback")
 @login_required
 def logout():
     logout_user()
-    return redirect("https://localhost:1337/index")
+    return redirect(url_for("home"))
 
 
 class Card(Resource):
