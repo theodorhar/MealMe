@@ -19,15 +19,12 @@ services:
     secrets:
       - db-root-password
       - db-users-password
-      - google-client-id
-      - google-client-secret
     expose:
       - 5000
     environment:
       - FLASK_APP=api/__init__.py
       - FLASK_ENV=development
       - APP_SETTINGS=api.config.DevelopmentConfig
-      - OAUTHLIB_INSECURE_TRANSPORT=1
     depends_on:
       - db
   db:
@@ -53,10 +50,6 @@ secrets:
     file: secrets/root_password.txt
   db-users-password:
     file: secrets/users_password.txt
-  google-client-secret:
-    file: secrets/google_client_secret.txt
-  google-client-id:
-    file: secrets/google_client_id.txt
   cert:
     file: secrets/cert.pem
   cert-key:
