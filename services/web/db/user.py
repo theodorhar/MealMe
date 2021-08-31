@@ -3,64 +3,16 @@
 from pandas import DataFrame
 import numpy as np
 import collections
+
 class User():
-    # def __init__(self, id_, name, email, profile_pic):
-    #     self.id = id_
-    #     self.name = name
-    #     self.email = email
-    #     self.profile_pic = profile_pic
-
-    # @staticmethod
-    # def get(connection: MySQLConnection, user_id: int):
-    #     if connection == None:
-    #         raise ConnectionError("Database connection is invalid")
-    #     db = connection.cursor()
-    #     db.execute(
-    #         "SELECT * FROM user WHERE id = %s", (user_id,)
-    #     )
-    #     user = db.fetchone()
-    #     if not user:
-    #         return None
-
-    #     user = User(
-    #         id_=user[0], name=user[1], email=user[2], profile_pic=user[3]
-    #     )
-    #     return user
-
-    # @staticmethod
-    # def create(connection: MySQLConnection, id_: int, name: str, email: str, profile_pic: str):
-    #     if connection == None:
-    #         raise ConnectionError("Database connection is invalid")
-    #     db = connection.cursor()
-    #     db.execute(
-    #         "INSERT INTO user (id, name, email, profile_pic) "
-    #         "VALUES (%s, %s, %s, %s)",
-    #         (id_, name, email, profile_pic),
-    #     )
-        # connection.commit()
-    def __init__(self):
-        self._age = None
-        self._name = None
-        self._location = None
-        self._id = None
+    def __init__(self, id):
+        self._id = id
         self._recipes_viewed = []
         self._recipes_made = []  #if it is in made it must be in viewed
         self._recipes_liked = [] #if it is in liked it must be in viewed
         self._ingredients_owned = collections.defaultdict(lambda : 0)
         self._weight_matrix = np.array([2,2,1,5]) #like,made,view,own weights in order
-    def set_age(self,age:int) -> None:
-        if type(age) != int:
-            raise TypeError("age type must be int- type: ",type(age))
-        if age < 0:
-            raise ValueError("age must be above 0- age:" ,age)
-        self._age = age
-    def set_name(self,name:str) -> None:
-        self._name = name
-    def set_id(self,id:int) -> None:
-        if type(id) != int:
-            raise TypeError("id type must be int- type: ",type(id))
-        self._int = id
-    
+
     def add_like(self,id:int) -> None:
         if type(id) != int:
             raise TypeError("id type must be int- type: ",type(id))

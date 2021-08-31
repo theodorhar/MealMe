@@ -2,10 +2,10 @@
 flask==1.1.4
 flask-restx==0.4.0
 numpy==1.19.5
-pandas==1.2.4 #pandas depends on numpy, so it is installed after numpy
+pandas==1.3.2 #pandas depends on numpy, so it is installed after numpy
+#dataframe persistence
+pyarrow==5.0.0 #for pandas to_feather
 #search
 rapidfuzz==1.4.1
-#db
-mysql-connector-python==8.0.26
 #wsgi server
 gunicorn==20.1.0

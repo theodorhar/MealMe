@@ -2,8 +2,8 @@
 import os, random
 from flask import Flask,jsonify,Response,request
 from flask_restx import Api,Resource
-from mysql.connector import pooling
 
+from pandas import read_feather
 from pandas.core.frame import DataFrame
 from rapidfuzz import fuzz
 from rapidfuzz import process
@@ -24,19 +24,10 @@ app_settings = os.getenv('APP_SETTINGS')
 app.config.from_object(app_settings)  
 app.secret_key = os.urandom(24)
 #load entire dataset into memory
-lookup = get_recipe_lookup(debug = DEBUG)
-
-#MySQL connection pool initialization
-pf = open('/run/secrets/db-users-password', 'r')
-userdbconfig = {
-"database": "panoplydb",
-"user":     "admin_users",
-"host":     "db",
-"password": pf.read()
-}
-userpool = pooling.MySQLConnectionPool(pool_name = "userpool", pool_size = 20, **userdbconfig)
-pf.close()
-
+#lookup = get_recipe_lookup(debug = DEBUG)
+lookup = read_feather("/app/lookup_df.ftr")
+#save to volume
+lookup.to_feather("/app/lookup_df.ftr")
 #data preprocessing
 #construct favored
 querystr = 'id < 71906 and review_count > 3000 or id > 90422 and review_count > 400'
@@ -44,9 +35,6 @@ favored = lookup.query(querystr)
 
 # define API services
 
-class Login(Resource):
-    def get(self,user_token):
-        pass
 class Ping(Resource):
     def get(self):
         return {
@@ -95,3 +83,9 @@ class Search(Resource):
                 out = out.append(card)
         return Response(out.to_json(orient="records"), mimetype='application/json')
 api.add_resource(Search, '/search')
+class Recommend(Resource):
+    def get(self):
+        id = request.headers.get('Authorization') #assumes: id doesn't change
+
+        return jsonify(id)
+api.add_resource(Recommend, '/recommend')
