@@ -1,6 +1,14 @@
 from glob import glob
 import pandas as pd
 
+def get_users(debug = False) -> pd.DataFrame:
+    frames = []
+    for file_name in glob('data/users.csv'):
+            with open(file_name) as f:
+                df = pd.read_csv(f)
+                frames.append(df)
+    data = pd.concat(frames,axis = 0)
+    return data
 def get_recipe_data(debug = False) -> pd.DataFrame:
     columns = ['rating','ingredients','ingredient_len','directions_len','directions_sent_len','directions_char_len','prep','cook','ready','calories','id']
     data = pd.DataFrame(data=[], columns=columns)

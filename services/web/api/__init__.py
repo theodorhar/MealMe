@@ -3,14 +3,15 @@ import os, random
 from flask import Flask,jsonify,Response,request
 from flask_restx import Api,Resource
 
-from pandas import read_feather
+from numpy import empty
 from pandas.core.frame import DataFrame
+from pandas.io.parquet import read_parquet
 from rapidfuzz import fuzz
 from rapidfuzz import process
 
 # Internal imports
 from db.user import User
-from api.load_data import get_recipe_lookup
+from api.load_data import get_recipe_lookup, get_users
 
 # configuration
 DEBUG = False
@@ -23,11 +24,19 @@ api = Api(app)
 app_settings = os.getenv('APP_SETTINGS')
 app.config.from_object(app_settings)  
 app.secret_key = os.urandom(24)
-#load entire dataset into memory
-#lookup = get_recipe_lookup(debug = DEBUG)
-lookup = read_feather("/app/lookup_df.ftr")
-#save to volume
-lookup.to_feather("/app/lookup_df.ftr")
+
+#re-initialize(to empty) dataframes within docker volume
+RESET_VOLUME = False
+if RESET_VOLUME:
+    lookup = get_recipe_lookup(debug = DEBUG)
+    users = get_users(debug = DEBUG)
+    #save to volume
+    users.to_parquet("/app/users.parquet")
+    lookup.to_parquet("/app/lookup.parquet")
+
+# load dataframes
+lookup = read_parquet("/app/lookup.parquet")
+
 #data preprocessing
 #construct favored
 querystr = 'id < 71906 and review_count > 3000 or id > 90422 and review_count > 400'
@@ -84,8 +93,13 @@ class Search(Resource):
         return Response(out.to_json(orient="records"), mimetype='application/json')
 api.add_resource(Search, '/search')
 class Recommend(Resource):
-    def get(self):
-        id = request.headers.get('Authorization') #assumes: id doesn't change
-
-        return jsonify(id)
+    def get(self): #assumes: id doesn't change for user
+        id = str(request.headers.get('Authorization'))
+        users = read_parquet("/app/users.parquet")
+        if id not in users.id.values:
+            newuser = {"id":id,"recipes_viewed":empty(0),"recipes_made":empty(0),"recipes_liked":empty(0),"ingredients_owned":empty(0),"weights":empty(0)}
+            #add user to data
+            users = users.append(newuser, ignore_index = True)
+            users.to_parquet("/app/users.parquet")
+        return Response(users.to_json(orient="records"), mimetype='application/json')
 api.add_resource(Recommend, '/recommend')
