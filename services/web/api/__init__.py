@@ -1,9 +1,9 @@
 
 import os, random
-from flask import Flask,jsonify,Response,request
+from flask import Flask, jsonify,Response,request
 from flask_restx import Api,Resource
 
-from numpy import empty
+from numpy import empty, zeros
 from pandas.core.frame import DataFrame
 from pandas.io.parquet import read_parquet
 from rapidfuzz import fuzz
@@ -11,8 +11,8 @@ from rapidfuzz import process
 
 # Internal imports
 from db.user import User
-from api.load_data import get_recipe_lookup, get_users
-
+from api.load_data import get_recipe_lookup, get_users, get_recipe_data
+from api.content_based_rec import get_recommendations
 # configuration
 DEBUG = False
 
@@ -26,11 +26,13 @@ app.config.from_object(app_settings)
 app.secret_key = os.urandom(24)
 
 #re-initialize(to empty) dataframes within docker volume
-RESET_VOLUME = False
+RESET_VOLUME = True
 if RESET_VOLUME:
     lookup = get_recipe_lookup(debug = DEBUG)
     users = get_users(debug = DEBUG)
+    recipes = get_recipe_data(debug = DEBUG)
     #save to volume
+    recipes.to_parquet("/app/recipes.parquet")
     users.to_parquet("/app/users.parquet")
     lookup.to_parquet("/app/lookup.parquet")
 
@@ -101,5 +103,14 @@ class Recommend(Resource):
             #add user to data
             users = users.append(newuser, ignore_index = True)
             users.to_parquet("/app/users.parquet")
-        return Response(users.to_json(orient="records"), mimetype='application/json')
+        #return Response(users.to_json(orient="records"), mimetype='application/json')
+        
+        #recommend something
+        u = users.query("id == @id")
+        
+        user = User(id, u["recipes_viewed"].to_list(), u["recipes_made"].to_list(), u["recipes_liked"].to_list(), u["ingredients_owned"].to_list(),u["weights"].to_list())
+        recipes = read_parquet("/app/recipes.parquet")
+        results = get_recommendations(user, recipes, 30)
+        formatted_results = [{'recipe':int(i),'confidence':float(j)} for i,j in results]
+        return jsonify(formatted_results)
 api.add_resource(Recommend, '/recommend')

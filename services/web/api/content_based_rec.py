@@ -1,23 +1,24 @@
-from . import user
 
 import collections as col
 import pandas as pd
-import tensorflow as tf
 import numpy as np
 from numpy.linalg import norm
 import heapq
-
+from ast import literal_eval
 
 
 DEBUG = True
 def n_most_freq(ser:pd.Series,n:int) -> list:
     d = col.defaultdict(lambda:0)
     for x in ser:
-        for item in x:
-            d[item] += 1
+        if type(x) is str:
+            for item in literal_eval(x):
+                d[item] += 1
+        else:
+            raise TypeError("invalid format, series doesn't contain strings")
     return [x[0] for x in sorted(d.items(),key = lambda x:x[1])[-n:][::-1]]
 #print(n_most_freq(recipes['ingredients'],50))
-def cosine_similarity(u:user, rec:np.array):
+def cosine_similarity(u, rec:np.array):
     if norm(u) == 0:
         raise ValueError('User has preference norm 0, invalid')
     if norm(rec) == 0:
@@ -25,7 +26,7 @@ def cosine_similarity(u:user, rec:np.array):
     return np.dot(u, rec)/(norm(u)*norm(rec))
 
 #linearly calculates all distances from the user to the recipes
-def get_recommendations(u:user, df:pd.DataFrame, n:int) -> np.array:
+def get_recommendations(u, df:pd.DataFrame, n:int) -> np.array:
     ratings = []
     relevant_ingredients = n_most_freq(df['ingredients'],50)
     ing_favor = u.get_favorability_array(relevant_ingredients,df)
