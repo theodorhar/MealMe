@@ -111,6 +111,6 @@ class Recommend(Resource):
         user = User(id, u["recipes_viewed"].to_list(), u["recipes_made"].to_list(), u["recipes_liked"].to_list(), u["ingredients_owned"].to_list(),u["weights"].to_list())
         recipes = read_parquet("/app/recipes.parquet")
         results = get_recommendations(user, recipes, 30)
-        formatted_results = [{**lookup.query('id =='+ id).to_dict(),'confidence':float(j)} for i,j in results]
+        formatted_results = [{**lookup.query("id == @i").to_dict('records')[0],'confidence':float(confidence)} for i,confidence in results]
         return jsonify(formatted_results)
 api.add_resource(Recommend, '/recommend')
