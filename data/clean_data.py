@@ -1,22 +1,28 @@
-from os import PathLike
+from ast import literal_eval
 import pandas as pd
 import re
 from glob import glob
 
 #generates a dataframe of raw data from jsons within the data folder
 def get_raw_data(debug = False) -> pd.DataFrame:
-    #columns = ['url', 'name', 'rating', 'ingredients', 'directions', 'prep', 'cook', 'ready in', 'calories', 'ratingcount']
-    columns = ["author","prep_time_minutes","description","footnotes", "ingredients","photo_url","cook_time_minutes","rating_stars","review_count","time_scraped","title","total_time_minutes","url"]
-    #columns = ["id","dek","hed","author","type","url","photoData","tag","aggregateRating","ingredients","prepSteps","reviewsCount","willMakeAgainPct","dateCrawled"]
+    #columns = ['url', 'name', 'rating', 'ingredients', 'directions', 'prep', 'cook', 'ready in', 'calories', 'ratingcount'] #the original format
+    #allrecipes
+    #columns = ["author","prep_time_minutes","description","footnotes", "ingredients","photo_url","cook_time_minutes","rating_stars","review_count","time_scraped","title","total_time_minutes","url"]
+    #epicurious
+    columns = ["id","dek","hed","author","type","url","photoData","tag","aggregateRating","ingredients","prepSteps","reviewsCount","willMakeAgainPct","dateCrawled"]
+    #bbccouk
+    #columns = ['chef', 'chef_id', 'cooking_time_minutes', 'description', 'ingredients', 'instructions', 'photo_url', 'preparation_time_minutes', 'title', 'total_time_minutes', 'url']
+    #cookstr
+    #columns = ["chef","description", "dietary_considerations", "ingredients", 'instructions', 'photo_url',"rating_count","rating_value",'title', 'url']
     raw_data = pd.DataFrame(data=[], columns=columns)
     frames = []
-    for file_name in glob('data/allrecipes-recipes.json'): #change this to file name of allrecipe data source
+    for file_name in glob('data/epicurious-recipes.json'): #change this to file name of data source
         with open(file_name) as f:
             df = pd.read_json(f, lines = True)
             frames.append(df)
     raw_data = pd.concat(frames,axis = 0)
     # raw_data = raw_data[raw_data.cook_time_minutes != 0]
-    raw_data = raw_data[raw_data.review_count != 0]
+    #raw_data = raw_data[raw_data.review_count != 0]
     #raw_data.drop_duplicates(inplace = True)
     #raw_data.dropna(axis = 1, inplace = True)
     if (debug):
@@ -69,9 +75,73 @@ def write_recipe_lookup_epic(data:pd.DataFrame,path: str,debug = False) -> pd.Da
     if (debug):
         print(recipe_lookup)
     recipe_lookup.to_csv(path,index = False)
+def write_recipes_allrecipes(data:pd.DataFrame,path: str,debug = False) -> pd.DataFrame:
+    recipes = pd.DataFrame([], columns = [])
+    recipes['title'] = data['title']
+    recipes['url'] = data['url']
+    recipes['photo_url'] = data['photo_url']
+    recipes['rating_stars'] = data['rating_stars']
+    recipes['review_count'] = data['review_count']
+    recipes['ingredients'] = data['ingredients']
+    recipes['instructions'] = data['instructions']
+    recipes['description'] = data['description']
+    recipes['author'] = data['author']
+    recipes['cook_time_minutes'] = data['cook_time_minutes']
+    if (debug):
+        print(recipes)
+    recipes.to_csv(path,index = False)
+def write_recipes_bbccouk(data:pd.DataFrame,path: str,debug = False) -> pd.DataFrame:
+    recipes = pd.DataFrame([], columns = [])
+    recipes['title'] = data['title']
+    recipes['url'] = data['url']
+    recipes['photo_url'] = data['photo_url']
+    recipes['rating_stars'] = None
+    recipes['review_count'] = 0
+    recipes['ingredients'] = data['ingredients']
+    recipes['instructions'] = data['instructions']
+    recipes['description'] = data['description']
+    recipes['author'] = data['chef']
+    recipes['cook_time_minutes'] = data['cooking_time_minutes']
+    if (debug):
+        print(recipes)
+    recipes.to_csv(path,index = False)
+def write_recipes_cookstr(data:pd.DataFrame,path: str,debug = False) -> pd.DataFrame:
+    recipes = pd.DataFrame([], columns = [])
+    recipes['title'] = data['title']
+    recipes['url'] = data['url']
+    recipes['photo_url'] = data['photo_url']
+    recipes['rating_stars'] = data['rating_value']
+    recipes['review_count'] = data['rating_count']
+    recipes['ingredients'] = data['ingredients']
+    recipes['instructions'] = data['instructions']
+    recipes['description'] = data['description']
+    recipes['author'] = data['chef']
+    recipes['cook_time_minutes'] = data['total_time']
+    if (debug):
+        print(recipes)
+    recipes.to_csv(path,index = False)
+
+def write_recipes_epic(data:pd.DataFrame,path: str,debug = False) -> pd.DataFrame:
+    recipes = pd.DataFrame([], columns = [])
+    recipes['title'] = data['hed']
+    recipes['url'] = "epicurious.com"+data['url']
+    photo_ids = [x['id'] for x in data['photoData'].to_dict().values()]
+    recipes['photo_url'] = photo_ids
+    recipes['photo_url']="https://assets.epicurious.com/photos/"+recipes['photo_url']+"/"
+    recipes['rating_stars'] = data['aggregateRating'] / 4 * 5
+    recipes['review_count'] = data['reviewsCount']
+    recipes['ingredients'] = data['ingredients']
+    recipes['instructions'] = data['prepSteps']
+    recipes['description'] = data['dek']
+    recipes['author'] = [x for x in data['author']]
+    recipes['cook_time_minutes'] = 0
+    if (debug):
+        print(recipes)
+    recipes.to_csv(path,index = False)
+
 # recipes = get_raw_data(debug = True)
-# path = "data/more/recipe_lookup_allrecipes.csv"
-# write_recipe_lookup_allrecipes(recipes, path, debug=True)
+# path = "data/more/recipes_epic.csv"
+# write_recipes_epic(recipes, path, debug=True)
 def add_index(path:str, debug = False)->None:
     columns = ['title','url','photo_url','rating_stars','review_count','cook_time_minutes','id']
     data = pd.DataFrame(data=[], columns=columns)
@@ -83,7 +153,7 @@ def add_index(path:str, debug = False)->None:
     data = pd.concat(frames,axis = 0)
     data['id'] = range(0,len(data))
     data.to_csv(path,index = False)
-#add_index(path = 'data/recipe_lookup.csv')
+add_index(path = 'data/recipes.csv')
 def get_recipes(data:pd.DataFrame,debug = False) -> pd.DataFrame:
     recipes = pd.DataFrame([],columns = [])
     recipes['rating'] = data['rating']

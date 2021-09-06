@@ -60,9 +60,19 @@ class Card(Resource):
     def post(self,title,url,photo_url,rating_stars,review_count,cook_time_minutes,id):
         pass
         #create recipe entry
-        #save data to buffer file
-
+        #save data to volume
 api.add_resource(Card, '/recipecard/<int:recipe_id>/')
+
+
+class Recipe(Resource):
+    def get(self,recipe_id):
+        #title,url,photo_url,rating_stars,review_count,cook_time_minutes,id
+        return Response(recipes.query('id ==' + str(recipe_id)).to_json(orient="records"), mimetype='application/json')
+    # def post(self,):
+    #     pass
+        #create recipe entry
+        #save data to volume
+api.add_resource(Recipe, '/recipe/<int:recipe_id>/')
 
 class Default(Resource):
     def get(self):
