@@ -9,3 +9,4 @@ Dockerfile.prod
 *.json
 data/more
 /secrets
+services/web/data/recipes.csv
