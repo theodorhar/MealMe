@@ -31,6 +31,7 @@ if RESET_VOLUME:
     lookup = get_recipe_lookup(debug = DEBUG)
     users = get_users(debug = DEBUG)
     recipes = get_recipe_data(debug = DEBUG)
+    print(recipes, recipes.info())
     #save to volume
     recipes.to_parquet("/app/recipes.parquet")
     users.to_parquet("/app/users.parquet")

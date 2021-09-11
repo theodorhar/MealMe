@@ -9,9 +9,9 @@ def get_raw_data(debug = False) -> pd.DataFrame:
     #allrecipes
     #columns = ["author","prep_time_minutes","description","footnotes", "ingredients","photo_url","cook_time_minutes","rating_stars","review_count","time_scraped","title","total_time_minutes","url"]
     #epicurious
-    columns = ["id","dek","hed","author","type","url","photoData","tag","aggregateRating","ingredients","prepSteps","reviewsCount","willMakeAgainPct","dateCrawled"]
+    #columns = ["id","dek","hed","author","type","url","photoData","tag","aggregateRating","ingredients","prepSteps","reviewsCount","willMakeAgainPct","dateCrawled"]
     #bbccouk
-    #columns = ['chef', 'chef_id', 'cooking_time_minutes', 'description', 'ingredients', 'instructions', 'photo_url', 'preparation_time_minutes', 'title', 'total_time_minutes', 'url']
+    columns = ['chef', 'chef_id', 'cooking_time_minutes', 'description', 'ingredients', 'instructions', 'photo_url', 'preparation_time_minutes', 'title', 'total_time_minutes', 'url']
     #cookstr
     #columns = ["chef","description", "dietary_considerations", "ingredients", 'instructions', 'photo_url',"rating_count","rating_value",'title', 'url']
     raw_data = pd.DataFrame(data=[], columns=columns)
