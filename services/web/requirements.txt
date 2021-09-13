@@ -1,6 +1,6 @@
 #base
 flask==1.1.4
-flask-restx==0.4.0
+flask-restx==0.5.1
 numpy==1.19.5
 pandas==1.3.2 #pandas depends on numpy, so it is installed after numpy
 #dataframe persistence
