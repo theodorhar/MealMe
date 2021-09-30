@@ -3,7 +3,7 @@ import os, random
 from flask import Flask, jsonify,Response,request
 from flask_restx import Api,Resource
 
-from numpy import empty, zeros
+from numpy import empty, zeros, append
 from pandas.core.frame import DataFrame
 from pandas.io.parquet import read_parquet
 from rapidfuzz import fuzz
@@ -31,7 +31,6 @@ if RESET_VOLUME:
     lookup = get_recipe_lookup(debug = DEBUG)
     users = get_users(debug = DEBUG)
     recipes = get_recipe_data(debug = DEBUG)
-    print(recipes, recipes.info())
     #save to volume
     recipes.to_parquet("/app/recipes.parquet")
     users.to_parquet("/app/users.parquet")
@@ -39,7 +38,7 @@ if RESET_VOLUME:
 
 # load dataframes
 lookup = read_parquet("/app/lookup.parquet")
-
+recipes = read_parquet("/app/recipes.parquet")
 #data preprocessing
 #construct favored
 querystr = 'id < 71906 and review_count > 3000 or id > 90422 and review_count > 400'
@@ -67,7 +66,21 @@ api.add_resource(Card, '/recipecard/<int:recipe_id>/')
 
 class Recipe(Resource):
     def get(self,recipe_id):
-        #title,url,photo_url,rating_stars,review_count,cook_time_minutes,id
+        #if request comes from a logged in user
+        print(request.headers)
+        users = read_parquet("/app/users.parquet")
+        if "Authorization" in request.headers:
+            id = request.headers.get('Authorization')
+            if id not in users.id.values:
+                newuser = {"id":id,"recipes_viewed":empty(0),"recipes_made":empty(0),"recipes_liked":empty(0),"ingredients_owned":empty(0),"weights":empty(0)}
+                #add user to data
+                users = users.append(newuser, ignore_index = True)
+            for index in users.index:
+                if users.loc[index,"id"]== id:
+                   users.loc[index,"recipes_viewed"] = append(users.loc[int(id)-1,"recipes_viewed"],recipe_id)
+            #add a view to the user profile
+            users.to_parquet("/app/users.parquet")
+        print(users)
         return Response(recipes.query('id ==' + str(recipe_id)).to_json(orient="records"), mimetype='application/json')
     # def post(self,):
     #     pass
@@ -94,8 +107,6 @@ class Search(Resource):
         query = request.args.get('q')
         choices = lookup.loc[:,'title'].tolist()
         res = process.extract(query,choices,limit = NUMRESULTS,scorer=fuzz.partial_ratio)
-        #[(title:str,percent match:double,id:int):tuple]:list
-
         #collect required information about card and output
         out = DataFrame()
         for _,percent_match,id in res:
@@ -114,11 +125,8 @@ class Recommend(Resource):
             #add user to data
             users = users.append(newuser, ignore_index = True)
             users.to_parquet("/app/users.parquet")
-        #return Response(users.to_json(orient="records"), mimetype='application/json')
-        
         #recommend something
         u = users.query("id == @id")
-        
         user = User(id, u["recipes_viewed"].to_list(), u["recipes_made"].to_list(), u["recipes_liked"].to_list(), u["ingredients_owned"].to_list(),u["weights"].to_list())
         recipes = read_parquet("/app/recipes.parquet")
         results = get_recommendations(user, recipes, 30)
